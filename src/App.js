@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import Canvas from './Component/Canvas'
+import { useEffect, useState } from 'react'
+import CubeSampleRenderer from './Renderer/CubeSampleRenderer'
+import BaseRenderer from './Renderer/BaseRenderer'
+
+const init = (setScreenSize) => {
+  window.addEventListener('resize', () => {
+    setScreenSize({
+      width: window.innerWidth,
+      height: window.innerHeight        
+    })
+  })
+}
 
 function App() {
+  const [renderer, _] = useState(() => new CubeSampleRenderer())
+  
+  console.log(renderer)
+
+  const [screenSize, setScreenSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  })
+  
+  useEffect(() => init(setScreenSize), [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Canvas renderer={renderer} width={screenSize.width} height={screenSize.height} />
+    </>
   );
 }
 
